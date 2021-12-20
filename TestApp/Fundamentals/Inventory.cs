@@ -6,26 +6,9 @@ using System.Threading.Tasks;
 
 namespace TestApp.Fundamentals
 {
-    public interface IInventoryItemRepository
-    {
-        IEnumerable<InventoryItem> Get();
-    }
-
     public class Inventory
     {
-        private readonly IInventoryItemRepository inventoryItemRepository;
-
-        public IEnumerable<InventoryItem> InventoryItems { get; private set; }
-
-        public Inventory(IInventoryItemRepository inventoryItemRepository)
-        {
-            this.inventoryItemRepository = inventoryItemRepository;
-        }
-
-        public void Load()
-        {
-            InventoryItems = inventoryItemRepository.Get();
-        }
+        public IEnumerable<InventoryItem> InventoryItems { get; set; }
 
         public void SortByPrice(Order order)
         {
