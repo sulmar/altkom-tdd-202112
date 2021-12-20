@@ -1,3 +1,4 @@
+using FluentAssertions;
 using NUnit.Framework;
 using System;
 
@@ -5,16 +6,22 @@ namespace TestApp.UnitTests
 {
     public class RentTests
     {
+        private User rentee;
+        private Rent rent;
+        
+        [SetUp]
+        public void Setup()
+        {
+            // Arrange
+            rentee = new User();
+            rent = new Rent(rentee);
+        }
 
         // Method_Scenario_ExpectedBehavior
         
         [Test]        
         public void CanReturn_UserIsEmpty_ShouldThrowsArgumentNullException()
         {
-            // Arrange
-            User rentee = new User();
-            Rent rent = new Rent(rentee);
-
             // Act
             TestDelegate act = () => rent.CanReturn(null);
 
@@ -25,24 +32,16 @@ namespace TestApp.UnitTests
         [Test]
         public void CanReturn_UserIsAdmin_ShouldReturnsTrue()
         {
-            // Arrange
-            User rentee = new User();
-            Rent rent = new Rent(rentee);
-
             // Act
             bool result = rent.CanReturn(new User { IsAdmin = true });
 
             // Assert
-            Assert.IsTrue(result);
+            result.Should().BeTrue();
         }
 
         [Test]
         public void CanReturn_UserIsAdminAndRentee_ShouldReturnsTrue()
         {
-            // Arrange
-            User rentee = new User();
-            Rent rent = new Rent(rentee);
-
             // Act
             rentee.IsAdmin = true;
             bool result = rent.CanReturn(rentee);
@@ -55,30 +54,22 @@ namespace TestApp.UnitTests
         [Test]
         public void CanReturn_UserIsNotAdminAndNotRentee_ShouldReturnsFalse()
         {
-            // Arrange
-            User rentee = new User();
-            Rent rent = new Rent(rentee);
-
             // Act
             bool result = rent.CanReturn(new User { IsAdmin = false });
 
             // Assert
-            Assert.IsFalse(result);
+            result.Should().BeFalse();
         }
 
         [Test]
         public void CanReturn_UserIsNotAdminAndRentee_ShouldReturnsTrue()
         {
-            // Arrange
-            User rentee = new User();
-            Rent rent = new Rent(rentee);
-
             // Act
             rentee.IsAdmin = false;
             bool result = rent.CanReturn(rentee);
 
             // Assert
-            Assert.IsTrue(result);
+            result.Should().BeTrue();
         }
 
 
@@ -99,8 +90,11 @@ namespace TestApp.UnitTests
             Rent result = new Rent(rentee);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(rentee, result.Rentee);
+            //Assert.IsNotNull(result);
+            //Assert.AreEqual(rentee, result.Rentee);
+
+            result.Should().NotBeNull();
+            result.Rentee.Should().BeSameAs(rentee);
         }
 
         [Test]
@@ -109,10 +103,14 @@ namespace TestApp.UnitTests
             // Arrange
 
             // Act
-            TestDelegate act = () => new Rent(null);
+            Action act = () => new Rent(null);
 
             // Assert
-            Assert.Throws<ArgumentNullException>(act);
+            // Assert.Throws<ArgumentNullException>(act);
+
+            act.Should().Throw<ArgumentNullException>();
+
+
         }
     }
 }
