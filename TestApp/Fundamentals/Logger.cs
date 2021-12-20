@@ -21,6 +21,8 @@ namespace TestApp
             // ...
 
             MessageLogged?.Invoke(this, DateTime.UtcNow);
+
+
         }
     }
 }
