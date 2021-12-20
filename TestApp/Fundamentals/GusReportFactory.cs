@@ -17,22 +17,20 @@ namespace TestApp.Fundamentals.Gus
     }
 
     // Osobowość prawna
-    public class LegalPersonality : Report
+    public class LegalPersonalityReport : Report
     {
 
     }
 
     public class ReportFactory
     {
-        public static Report Create(string type)
+        public static Report Create(string type) => type switch
         {
-            // P, LP, LF -> Osobowość prawna
-            // F -> Działalność fizyczna
-            // nieznany -> NotSupportedException
+            "P" or "LP" or "LF" => new LegalPersonalityReport(),
+            "F" => new SoleTraderReport(),
+            _ => throw new NotSupportedException(),
+        };
 
-            throw new NotImplementedException();
-        }
-    }
-
- 
+        // P, LP, LF -> Osobowość prawna// F -> Działalność fizyczna// nieznany -> NotSupportedException
+    }   
 }
