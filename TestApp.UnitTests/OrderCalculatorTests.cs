@@ -9,9 +9,56 @@ using TestApp.Refactoring;
 
 namespace TestApp.UnitTests
 {
+    //public class Test
+    //{
+    //    public void Test()
+    //    {
+    //        OrderCalculator orderCalculator =
+    //            new OrderCalculator(
+    //                new HappyHoursDiscountStrategy(TimeSpan.Parse("09:00"), TimeSpan.Parse("15:00")),
+    //                new PercentageDiscountStrategy(0.1m));
+
+    //        OrderCalculator orderCalculator2 =
+    //           new OrderCalculator(
+    //               new HappyHoursDiscountStrategy(TimeSpan.Parse("09:00"), TimeSpan.Parse("15:00")),
+    //               new FixedDiscountStrategy(10));
+    //    }
+    //}
+
+    public class PercentageDiscountStrategyTests
+    {
+        private Order order;
+        private Customer customer;
+
+        private const decimal RegularPrice = 100;
+
+        [SetUp]
+        public void SetUp()
+        {
+            customer = new Customer(string.Empty, string.Empty);
+
+            order = new Order(DateTime.MinValue, customer);
+            order.AddDetail(new Product(1, "a", RegularPrice));
+        }
+
+        [TestCase(0.1, 10)]
+        public void CalculateDiscount_ValidOrder_ShouldReturnsPercentageDiscount(decimal percentage, decimal expected)
+        {
+            // Arrange
+            IDiscountStrategy discountStrategy = new PercentageDiscountStrategy(0.1m);
+
+            // Act
+            decimal result = discountStrategy.CalculateDiscount(order);
+
+            // Assert
+            result.Should().Be(expected);
+
+        }
+    }
+
     public class OrderCalculatorTests
     {
-        private OrderCalculator orderCalculator;
+        private HappyHourOrderCalculator orderCalculator;
         private Order order;
         private Customer customer;
 
@@ -33,7 +80,7 @@ namespace TestApp.UnitTests
         public void Setup()
         {
             // Arrange
-            orderCalculator = new OrderCalculator();
+            orderCalculator = new HappyHourOrderCalculator(StartHappyHour, EndHappyHour, 0.1m);
 
             customer = new Customer(string.Empty, string.Empty);
 
@@ -55,6 +102,7 @@ namespace TestApp.UnitTests
             result.Should().Be(NoDiscount);
             
         }
+
 
         [Test]
         public void CalculateDiscount_OrderDateAfterHappyHour_ShouldReturnsNoDiscount()
