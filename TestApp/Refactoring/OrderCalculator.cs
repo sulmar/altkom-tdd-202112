@@ -88,12 +88,18 @@ namespace TestApp.Refactoring
 
     #endregion
 
-    // Promocja Happy Hours - 10% upustu w godzinach od 9 do 15
+    //  
     public class OrderCalculator
     {
         public decimal CalculateDiscount(Order order)
         {
-            throw new NotImplementedException();
+            if (order.OrderDate.Hour >= 9 && order.OrderDate.Hour <= 15)
+            {
+                return order.Amount * 0.1m;
+            }
+            else
+
+                return decimal.Zero;
         }
     }
 
