@@ -108,6 +108,7 @@ namespace TestApp.Mocking
 
         public async Task SendSalesReportEmailAsync(DateTime date)
         {
+            // Get Orders
             OrderService orderService = new OrderService();
 
             var orders = orderService.Get(date.AddDays(-7), date);
@@ -117,8 +118,9 @@ namespace TestApp.Mocking
                 return;
             }
 
+            // Build Report
             SalesReport report = Create(orders);
-
+            
             // dotnet add package SendGrid
             SendGridClient client = new SendGridClient(apikey);
 
