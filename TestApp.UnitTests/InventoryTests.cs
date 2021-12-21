@@ -28,7 +28,9 @@ namespace TestApp.UnitTests
         }
 
 
-        [Test(Author = "Marcin")]
+        [Category("A")]
+        [Author("Marcin")]
+        [Test]
         public void SortByName_OrderAscending_ShouldInventoryItemsSortedAscendingByNameAndAscendingByPrice()
         {
             // Act
@@ -41,7 +43,9 @@ namespace TestApp.UnitTests
            
         }
 
-        [Test(Author = "Kuba")]
+        [Category("A")]
+        [Author("Kuba")]
+        [Test]
         public void SortByName_OrderDescending_ShouldInventoryItemsSortedDescendingByNameAndAscendingByPrice()
         {
             // Act
@@ -54,6 +58,7 @@ namespace TestApp.UnitTests
 
         }
 
+        [Category("B")]
         [Test]
         public void SortByPrice_OrderAscending_ShouldInventoryItemsSortedAscendingByPriceAndAscendingByName()
         {
@@ -67,6 +72,7 @@ namespace TestApp.UnitTests
 
         }
 
+        [Category("B")]
         [Test]
         public void SortByPrice_OrderDescending_ShouldInventoryItemsSortedDescendingByPriceAndAscendingByName()
         {
